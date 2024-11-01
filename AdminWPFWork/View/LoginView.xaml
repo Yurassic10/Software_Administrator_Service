@@ -1,0 +1,33 @@
+﻿<Window x:Class="AdminWPFWork.View.LoginView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdminWPFWork.View"
+        mc:Ignorable="d"
+        Title="Login" Height="250" Width="450">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                <GradientStop Color="#FF2677A9" Offset="0.0"/>
+                <GradientStop Color="#FF62D2B6" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="20" >
+            <Label Style="{StaticResource LabelStyle}" Content="Email:" />
+            <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding EmailEntered, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Style="{StaticResource LabelStyle}" Content="Password:"/>
+            <PasswordBox Style="{StaticResource PasswordBoxStyle}" x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" />
+            <Button Style="{StaticResource ButtonStyle}" 
+                    Content="Login" 
+                    Command="{Binding LogginAdmin}" 
+                    Margin="0,10,0,10"/>
+        </StackPanel>
+       
+    </Grid>
+</Window>

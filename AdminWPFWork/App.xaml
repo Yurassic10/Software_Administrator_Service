@@ -1,0 +1,21 @@
+﻿<Application x:Class="AdminWPFWork.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AdminWPFWork"
+             xmlns:views="clr-namespace:AdminWPFWork.View" 
+             xmlns:viewmodels="clr-namespace:AdminWPFWork.ViewModels"
+             StartupUri="View/LoginView.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Styles.xaml"/>
+                <ResourceDictionary>
+                    <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
+                        <views:LoginView/>
+                    </DataTemplate>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>
