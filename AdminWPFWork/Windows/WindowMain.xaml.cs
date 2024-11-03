@@ -1,5 +1,12 @@
-﻿using System.Windows;
-using AdminWPFWork.View; // Додайте цей простір імен для використання вашого View
+﻿using System.Collections.ObjectModel;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using AdminWPFWork.View;
+using AdminWPFWork.ViewModels;
+using BLL.IServices;
+using BLL.Services;
+using DTO.Model;
 
 namespace AdminWPFWork.Windows
 {
@@ -8,29 +15,22 @@ namespace AdminWPFWork.Windows
     /// </summary>
     public partial class WindowMain : Window
     {
-        public WindowMain()
+        private readonly LoginViewModel _loginViewModel;
+        public ObservableCollection<User> Users { get; } 
+        public WindowMain(LoginViewModel loginViewModel) 
         {
             InitializeComponent();
-            //MainFrame.Navigate(new UserView()); // Перехід на початкову вкладку
-            //var userView = new UserView();
-            //userView.Show(); // Відкриття UserView як окремого вікна під час запуску
-        }
 
-        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown(); // Закриваємо програму
-        }
 
-        private void ManageUsersMenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var userView = new UserView();
-            userView.Show(); // Відкриття UserView як окремого вікна
-            //MainFrame.Navigate(new UserView()); // Перехід на вкладку управління користувачами
-        }
+            IServiceSuperAdmin serviceSuperAdmin = new ServiceSuperAdmin(); 
+            IServiceActivity serviceActivity = new ServiceActivity(); 
+            IServiceRole serviceRole = new ServiceRole();
+            _loginViewModel = loginViewModel; 
+            
 
-        //private void SettingsMenuItem_Click(object sender, RoutedEventArgs e)
-        //{
-        //    MainFrame.Navigate(new SettingsView()); // Перехід на вкладку налаштувань
-        //}
+            WindowMainViewModel viewModel = new WindowMainViewModel(serviceSuperAdmin, serviceActivity,serviceRole, _loginViewModel);
+            this.DataContext = viewModel; 
+
+        }
     }
 }

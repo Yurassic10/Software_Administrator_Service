@@ -19,12 +19,11 @@ namespace AdminWPFWork.View
     /// <summary>
     /// Interaction logic for UserView.xaml
     /// </summary>
-    public partial class UserView : Window
+    public partial class UserView : UserControl 
     {
-        public UserView()
+        public UserView() 
         {
-            InitializeComponent();
-            DataContext = new UserViewModel(new ServiceSuperAdmin(),new ServiceActivity(),new LoginViewModel(new ServiceSuperAdmin()));
+            InitializeComponent();           
         }
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {

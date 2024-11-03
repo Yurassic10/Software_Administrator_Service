@@ -10,5 +10,10 @@ namespace DTO.Model
     {
         public int Id {  get; set; }
         public string Name { get; set; }
+
+        public bool Equals(Status obj)
+        {
+            return obj.Id == Id && obj.Name == Name;
+        }
     }
 }

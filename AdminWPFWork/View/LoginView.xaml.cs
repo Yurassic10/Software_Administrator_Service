@@ -22,34 +22,14 @@ namespace AdminWPFWork.View
     /// </summary>
     public partial class LoginView : Window
     {
-        //public LoginView(IServiceSuperAdmin serviceSuperAdmin)
-        //{
-        //    InitializeComponent();
-        //    DataContext = new LoginViewModel(serviceSuperAdmin);
-        //}
         public LoginView()
         {
             InitializeComponent();
             DataContext = new LoginViewModel(new ServiceSuperAdmin());
         }
-        //public LoginView(LoginViewModel viewModel)
-        //{
-        //    InitializeComponent();
-        //    DataContext = viewModel;
-        //}
+
         public void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            //var passwordBox = sender as PasswordBox;
-            //if (passwordBox != null)
-            //{
-            //    // Отримуємо DataContext, щоб отримати доступ до LoginViewModel
-            //    var viewModel = this.DataContext as LoginViewModel;
-            //    if (viewModel != null)
-            //    {
-            //        viewModel.PasswordEntered = passwordBox.Password; // Встановлюємо введений пароль
-            //    }
-            //}
-
             var passwordBox = sender as PasswordBox;
             var viewModel = DataContext as LoginViewModel;
 

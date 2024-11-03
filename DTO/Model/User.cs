@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,11 @@ namespace DTO.Model
                 && obj.StatusId == this.StatusId
                 && obj.CreatedAt == this.CreatedAt
                 && obj.UpdatedAt == this.UpdatedAt;
+        }
+        public static byte[] hash(string pass, string salt)
+        {
+            var algorithm = SHA512.Create();
+            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(pass + salt));
         }
 
     }

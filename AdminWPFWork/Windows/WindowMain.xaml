@@ -3,18 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodels="clr-namespace:AdminWPFWork.ViewModels"
+        xmlns:views="clr-namespace:AdminWPFWork.View"
+        
+        
         mc:Ignorable="d"
-        Title="Main Window" Height="450" Width="800">
-    <Grid>
-        <Menu VerticalAlignment="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="Exit" Click="ExitMenuItem_Click"/>
-            </MenuItem>
-            <MenuItem Header="Manage">
-                <MenuItem Header="Users" Click="ManageUsersMenuItem_Click"/>
-            </MenuItem>
-        </Menu>
+        Title="Admin Service" Height="450" Width="1000">
 
-        <Frame x:Name="MainFrame" Margin="10"/>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewmodels:UserViewModel}">
+            <views:UserView />
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewmodels:RoleViewModel}">
+            <views:RoleView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:ActivityViewModel }">
+            <views:ActivityView/>
+        </DataTemplate>
+        
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20px"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+  
+    <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <!-- Кнопки для перемикання між ViewModel -->
+        <Button Content="Show View User" Command="{Binding ShowUserViewModelCommand}" />
+        <Button Content="Show View Role" Command="{Binding ShowViewRoleModelCommand}" />
+        <Button Content="Activities" Command="{Binding ShowViewActivityModelCommand}"/>
+            <!-- ContentControl для динамічного відображення View -->
+        
+    </StackPanel>
+    <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" />
     </Grid>
 </Window>

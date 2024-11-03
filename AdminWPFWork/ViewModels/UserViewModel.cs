@@ -17,11 +17,12 @@ using AdminWPFWork.View;
 
 namespace AdminWPFWork.ViewModels
 {
-    public class UserViewModel : INotifyPropertyChanged
+    public class UserViewModel : BaseViewModel  
     {
         private readonly IServiceSuperAdmin _serviceSuperAdmin;
         private readonly IServiceActivity _serviceActivity;
         private readonly LoginViewModel _loginViewModel;
+
         private int _searchId;
         private string _serchEmail;
         private User _selectedUser;
@@ -33,6 +34,10 @@ namespace AdminWPFWork.ViewModels
         private int _newRoleId;
         private int _newStatusId;
         private bool _actionAllowed;
+        private string _isVisible;
+        private int _IdForActivity;
+
+        public ObservableCollection<User> Users { get; } // Колекція для списку користувачів
 
         public UserViewModel(IServiceSuperAdmin serviceSuperAdmin,IServiceActivity serviceActivity, LoginViewModel loginViewModel)
         {
@@ -41,38 +46,48 @@ namespace AdminWPFWork.ViewModels
             _loginViewModel = loginViewModel;
             Users = new ObservableCollection<User>();
             LoadUsers();
-            DeleteUserCommand = new RelayCommand(_param => DeleteUser(), _param => CanDeleteUser()); //CanDeleteUser()
-            SearchUserCommand = new RelayCommand(_param => SearchUser(),_param => CanSearchUser()); //_loginViewModel.ActionAllowed
+            ActionAllowed = _loginViewModel.ActionAllowed;
+            IsVisible = Test();
+            DeleteUserCommand = new RelayCommand(_param => DeleteUser(), _param => ActionAllowed); 
+            SearchUserCommand = new RelayCommand(_param => SearchUser(),_param => ActionAllowed); 
             AddUserCommand = new RelayCommand(_param => AddUser());
 
             SearchEmail = _loginViewModel.EmailEntered; 
-            InitializeActionAllowed();
-            //ActionAllowed = _loginViewModel.ActionAllowed;
+     
+            
 
+            _loginViewModel.PropertyChanged += LoginViewModel_PropertyChanged;
         }
-        private void InitializeActionAllowed()
+        private void LoginViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            // Додаємо перевірку на null
-            if (string.IsNullOrEmpty(_loginViewModel?.EmailEntered))
+            if (e.PropertyName == nameof(LoginViewModel.ActionAllowed))
             {
-                MessageBox.Show("Електронну пошту не передано. Перевірте вхід у систему.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                ActionAllowed = false;
-                return;
-            }
-
-            var loggedInUser = _serviceSuperAdmin.GetByEmail(_loginViewModel.EmailEntered);
-
-            if (loggedInUser != null)
-            {
-                ActionAllowed = CheckUserRole(loggedInUser.RoleId);
-            }
-            else
-            {
-                ActionAllowed = false;
-                MessageBox.Show("Користувача не знайдено. Перевірте правильність введення електронної пошти.", "Помилка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                _actionAllowed = _loginViewModel.ActionAllowed;
             }
         }
 
+        public ICommand DeleteUserCommand { get; }
+        public ICommand SearchUserCommand { get; }
+        public ICommand AddUserCommand { get; }
+
+        #region Methods
+
+        private string Test()
+        {
+            if (ActionAllowed == false)
+            {
+                return "Hidden";
+            }
+            return "Visible";
+        }
+        public  bool CheckUserRoleUser(bool role)
+        {
+            _actionAllowed = role;
+            return role;
+        }
+
+    
+       
         private void LoadUsers()
         {
             var users = _serviceSuperAdmin.GetProducts();
@@ -88,60 +103,41 @@ namespace AdminWPFWork.ViewModels
 
         private void DeleteUser()
         {
-            if(SelectedUser!=null)
+            if (SelectedUser != null)
             {
                 var activity = new Activity
                 {
-                    AdminId = 1,
+                    AdminId = _loginViewModel.LoggedInId,
                     UserId = SelectedUser.Id,
                     ActionId = 1,
                     CreatedAt = DateTime.Now
                 };
-
+                IdForActivity = SelectedUser.Id;
                 _serviceActivity.Add(activity);
                 _serviceSuperAdmin.Delete(SelectedUser.Id);
                 Users.Remove(SelectedUser);
-                // Додав
                 MessageBox.Show("Користувача успішно видалено.", "Видалення користувача", MessageBoxButton.OK, MessageBoxImage.Information);
                 LoadUsers();
             }
         }
-        private bool CanDeleteUser()
-        {
-            //return ActionAllowed;
-            return true;
-        }
-        private bool CanSearchUser()
-        {
-
-            //return _loginViewModel.ActionAllowed;
-            return true;
-            //return ActionAllowed;
-        }
+       
         private void SearchUser()
         {
 
             var userById = _serviceSuperAdmin.GetById(SearchId);
-            var userByEmail = _serviceSuperAdmin.GetByEmail(SearchEmail);
-            //Users.Clear();
-            //Додав
             if (userById != null)
             {
                 SearchResult = $"Користувач: {userById.FirstName} {userById.LastName}";
-                //Users.Clear();
-                //Users.Add(userById);
             }
             else
             {
                 SearchResult = "Користувача не знайдено.";
             }
-            //SearchResult = userById.FirstName;
         }
         private void AddUser()
         {
-            // Генерація солі
-            var salt = Guid.NewGuid(); //.ToString()
-            var hashedPassword = Hash(NewPassword.ToString(), salt.ToString()); //salt.ToString()
+            var salt = Guid.NewGuid(); 
+            var hashedPassword = Hash(NewPassword.ToString(), salt.ToString()); 
             var newUser = new User
             {
                 FirstName=NewFirstName, 
@@ -152,7 +148,7 @@ namespace AdminWPFWork.ViewModels
                 StatusId=NewStatusId,
                 CreatedAt=DateTime.Now,
                 UpdatedAt=DateTime.Now,
-                Salt = salt // Guid.NewGuid()
+                Salt = salt 
             };
             _serviceSuperAdmin.Add(newUser);
             Users.Add(newUser);
@@ -172,9 +168,31 @@ namespace AdminWPFWork.ViewModels
                 return algorithm.ComputeHash(Encoding.UTF8.GetBytes(pass + salt));
             }
         }
+        #endregion
 
-        public ObservableCollection<User> Users { get; } // Колекція для списку користувачів
-
+        #region Property
+        public int IdForActivity
+        {
+            get => _IdForActivity;
+            set
+            {
+                _IdForActivity = value;
+                OnPropertyChanged();
+            }
+        }
+        public string IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+            set
+            {
+                _isVisible = value;
+                
+                OnPropertyChanged();
+            }
+        }
         public int SearchId
         {
             get => _searchId;
@@ -278,14 +296,9 @@ namespace AdminWPFWork.ViewModels
                 OnPropertyChanged(nameof(ActionAllowed));
             }
         }
-        private bool CheckUserRole(int roleId)
-        {
-            return roleId == 1 || roleId == 2; // 
-        }
+        #endregion
 
-        public ICommand DeleteUserCommand { get; }
-        public ICommand SearchUserCommand { get; }
-        public ICommand AddUserCommand {  get; }
+  
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
