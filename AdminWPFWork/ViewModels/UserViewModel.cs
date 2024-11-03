@@ -36,6 +36,7 @@ namespace AdminWPFWork.ViewModels
         private bool _actionAllowed;
         private string _isVisible;
         private int _IdForActivity;
+        private int _newUserId;
 
         public ObservableCollection<User> Users { get; } // Колекція для списку користувачів
 
@@ -136,11 +137,21 @@ namespace AdminWPFWork.ViewModels
         }
         private void AddUser()
         {
+            if (Users.Count == 0)
+            {
+                NewUserId = 1;
+            }
+            else
+            {
+                int maxId = Users.Max(x => x.Id);
+                NewUserId = maxId + 1;
+            }
             var salt = Guid.NewGuid(); 
             var hashedPassword = Hash(NewPassword.ToString(), salt.ToString()); 
             var newUser = new User
             {
-                FirstName=NewFirstName, 
+                Id = NewUserId,
+                FirstName =NewFirstName, 
                 LastName=NewLastName,
                 Email=NewEmail,
                 Password=hashedPassword,
@@ -171,6 +182,15 @@ namespace AdminWPFWork.ViewModels
         #endregion
 
         #region Property
+        public int NewUserId
+        {
+            get => _newUserId;
+            set
+            {
+                _newUserId = value;
+                OnPropertyChanged();
+            }
+        }
         public int IdForActivity
         {
             get => _IdForActivity;
