@@ -173,13 +173,6 @@ namespace AdminWPFWork.ViewModels
                         result = "Email should be between range 5-12";
                     }
                 }
-                else if(columnName == nameof(PasswordEntered))
-                {
-                    if(PasswordEntered.Length <5)
-                    {
-                        result = "Password should be at least 5 characters long";
-                    }
-                }
                 ErrorMessage = result;
                 return result;
             }
@@ -192,12 +185,6 @@ namespace AdminWPFWork.ViewModels
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
-
-        //public event PropertyChangedEventHandler? PropertyChanged;
-        //protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
     }
 }
 

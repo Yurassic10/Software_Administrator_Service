@@ -22,7 +22,7 @@
             <Label Style="{StaticResource LabelStyle}" Content="Email:" />
             <TextBox Style="{StaticResource TextBoxStyle}" Text="{Binding EmailEntered,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ErrorMessage}"/>
             <Label Style="{StaticResource LabelStyle}" Content="Password:"/>
-            <PasswordBox Style="{StaticResource PasswordBoxStyle}" x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" ToolTip="{Binding ErrorMessage}" />
+            <PasswordBox Style="{StaticResource PasswordBoxStyle}" x:Name="PasswordBox" PasswordChanged="PasswordBox_PasswordChanged" />
             <Button Style="{StaticResource ButtonStyle}" 
                     Content="Login" 
                     Command="{Binding LogginAdmin}" 
