@@ -12,16 +12,17 @@ using System.Windows.Input;
 
 namespace AdminWPFWork.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : INotifyPropertyChanged , IDataErrorInfo
     {
         private readonly IServiceSuperAdmin _serviceSuperAdmin;
         public UserViewModel UserViewModel { get; set; } // Доступ до UserViewModel
-        private string _emailEntered;
+        private string _emailEntered = string.Empty;
         private string _passwordEntered;
         private bool _actionAllowed;
 
         private int _userRoleId;
         private int _loggedInId;
+        private string _errorMessage;
 
         public LoginViewModel(IServiceSuperAdmin serviceSuperAdmin)
         {
@@ -51,7 +52,7 @@ namespace AdminWPFWork.ViewModels
             private set
             {
                 _userRoleId = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(UserRoleId));
             }
         }
 
@@ -85,7 +86,15 @@ namespace AdminWPFWork.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool IsLoggedIn { get; private set; }
         #endregion
@@ -143,11 +152,52 @@ namespace AdminWPFWork.ViewModels
         }
         #endregion
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+
+        public string Error
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get
+            {
+                return string.Empty;
+            }
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = String.Empty;
+                if(columnName == nameof(EmailEntered))
+                {
+                    if(EmailEntered.Length < 5 || EmailEntered.Length > 12)
+                    {
+                        result = "Email should be between range 5-12";
+                    }
+                }
+                else if(columnName == nameof(PasswordEntered))
+                {
+                    if(PasswordEntered.Length <5)
+                    {
+                        result = "Password should be at least 5 characters long";
+                    }
+                }
+                ErrorMessage = result;
+                return result;
+            }
+        }
+
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string name ="")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+        }
+
+        //public event PropertyChangedEventHandler? PropertyChanged;
+        //protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }
 

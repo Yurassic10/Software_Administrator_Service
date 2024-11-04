@@ -17,7 +17,7 @@ using AdminWPFWork.View;
 
 namespace AdminWPFWork.ViewModels
 {
-    public class UserViewModel : BaseViewModel  
+    public class UserViewModel : BaseViewModel ,IDataErrorInfo
     {
         private readonly IServiceSuperAdmin _serviceSuperAdmin;
         private readonly IServiceActivity _serviceActivity;
@@ -27,9 +27,9 @@ namespace AdminWPFWork.ViewModels
         private string _serchEmail;
         private User _selectedUser;
         private string _searchResult;
-        private string _newFirstName;
-        private string _newLastName;
-        private string _newEmail;
+        private string _newFirstName = string.Empty;
+        private string _newLastName = string.Empty;
+        private string _newEmail = string.Empty;
         private byte[] _newPassword; 
         private int _newRoleId;
         private int _newStatusId;
@@ -37,6 +37,8 @@ namespace AdminWPFWork.ViewModels
         private string _isVisible;
         private int _IdForActivity;
         private int _newUserId;
+
+        private string _errorMessage;
 
         public ObservableCollection<User> Users { get; } // Колекція для списку користувачів
 
@@ -316,15 +318,66 @@ namespace AdminWPFWork.ViewModels
                 OnPropertyChanged(nameof(ActionAllowed));
             }
         }
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set
+            {
+                _errorMessage = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
-  
+        public string Error
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string result = String.Empty;
+                if (columnName == nameof(NewFirstName))
+                {
+                    if (NewFirstName.Length < 5 || NewFirstName.Length > 12)
+                    {
+                        result = "New first name should be between range 5-12";
+                    }
+                }
+                else if (columnName == nameof(NewLastName))
+                {
+                    if (NewLastName.Length < 5 || NewLastName.Length > 12)
+                    {
+                        result = "New last name should be between range 5-12";
+                    }
+                }
+                else if(columnName == nameof(NewEmail))
+                {
+                    if(!NewEmail.EndsWith("@gmail.com"))
+                    {
+                        result = "New email should be end with '@gmail.com' ";
+                    }
+                }
+                ErrorMessage = result;
+                return result;
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string name = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
+        //protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
 }

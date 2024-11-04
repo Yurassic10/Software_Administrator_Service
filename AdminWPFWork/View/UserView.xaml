@@ -46,11 +46,11 @@
         <StackPanel  Grid.Column="2" Margin="10,10,10,10" Visibility="{Binding IsVisible}">
             <TextBlock Text="Add New User" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
             <TextBlock Text="First Name" />
-            <TextBox Width="200" Margin="0,0,0,5" Text="{Binding NewFirstName}"/>
+            <TextBox Width="200" Margin="0,0,0,5" Text="{Binding NewFirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ErrorMessage}"/>
             <TextBlock Text="Last Name" />
-            <TextBox Width="200" Margin="0,0,0,5" Text="{Binding NewLastName}"/>
+            <TextBox Width="200" Margin="0,0,0,5" Text="{Binding NewLastName,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ErrorMessage}"/>
             <TextBlock Text="Email" />
-            <TextBox Width="200" Margin="0,0,0,5" Text="{Binding NewEmail}"/>
+            <TextBox Width="200" Margin="0,0,0,5" Text="{Binding NewEmail,ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding ErrorMessage}"/>
             <TextBlock Text="Password" />
             <PasswordBox x:Name="PasswordBox" Width="200" Margin="0,0,0,5" PasswordChanged="PasswordBox_PasswordChanged" />
             <TextBlock Text="Role ID" />
