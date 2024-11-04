@@ -21,6 +21,8 @@ namespace AdminWPFWork.ViewModels
     {
         private readonly IServiceSuperAdmin _serviceSuperAdmin;
         private readonly IServiceActivity _serviceActivity;
+        private readonly IServiceRole _serviceRole;
+        private readonly IServiceStatus _serviceStatus;
         private readonly LoginViewModel _loginViewModel;
 
         private int _searchId;
@@ -41,13 +43,37 @@ namespace AdminWPFWork.ViewModels
         private string _errorMessage;
 
         public ObservableCollection<User> Users { get; } // Колекція для списку користувачів
+        private ObservableCollection<Role> _roles;
+        public ObservableCollection<Role> Roles
+        {
+            get => _roles;
+            set
+            {
+                _roles = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<Status> _status;
+        public ObservableCollection<Status> Statuses
+        {
+            get => _status;
+            set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public UserViewModel(IServiceSuperAdmin serviceSuperAdmin,IServiceActivity serviceActivity, LoginViewModel loginViewModel)
+        public UserViewModel(IServiceSuperAdmin serviceSuperAdmin,IServiceActivity serviceActivity,IServiceRole serviceRole,IServiceStatus serviceStatus, LoginViewModel loginViewModel)
         {
             _serviceSuperAdmin = serviceSuperAdmin;
             _serviceActivity = serviceActivity;
             _loginViewModel = loginViewModel;
+            _serviceRole = serviceRole;
+            _serviceStatus = serviceStatus;
             Users = new ObservableCollection<User>();
+            Roles = new ObservableCollection<Role>(_serviceRole.GetProducts());
+            Statuses = new ObservableCollection<Status>(_serviceStatus.GetProducts());
             LoadUsers();
             ActionAllowed = _loginViewModel.ActionAllowed;
             IsVisible = Test();
@@ -375,9 +401,5 @@ namespace AdminWPFWork.ViewModels
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
-        //protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
     }
 }

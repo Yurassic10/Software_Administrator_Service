@@ -21,6 +21,7 @@ namespace AdminWPFWork.ViewModels
         private readonly IServiceSuperAdmin _serviceSuperAdmin;
         private readonly IServiceActivity _serviceActivity;
         private readonly IServiceRole _serviceRole;
+        private readonly IServiceStatus _serviceStatus;
 
 
         private readonly LoginViewModel _loginViewModel;
@@ -37,12 +38,13 @@ namespace AdminWPFWork.ViewModels
         public ICommand ShowViewActivityModelCommand { get; }
         public ObservableCollection<User> Users { get; } // Колекція для списку користувачів
 
-        public WindowMainViewModel(IServiceSuperAdmin serviceSuperAdmin, IServiceActivity serviceActivity,IServiceRole serviceRole, LoginViewModel loginViewModel)
+        public WindowMainViewModel(IServiceSuperAdmin serviceSuperAdmin, IServiceActivity serviceActivity,IServiceRole serviceRole,IServiceStatus serviceStatus, LoginViewModel loginViewModel)
         {
             _serviceSuperAdmin = serviceSuperAdmin;
             _serviceActivity = serviceActivity;
             _loginViewModel = loginViewModel;
             _serviceRole = serviceRole;
+            _serviceStatus = serviceStatus;
             Users = new ObservableCollection<User>();
 
 
@@ -51,8 +53,8 @@ namespace AdminWPFWork.ViewModels
             ShowViewActivityModelCommand = new RelayCommand(o => ShowActivityViewModel());
 
 
-            _userViewModel = new UserViewModel(_serviceSuperAdmin, _serviceActivity, _loginViewModel);
-            _roleViewModel = new RoleViewModel(_serviceRole,_loginViewModel); // Створюємо один раз
+            _userViewModel = new UserViewModel(_serviceSuperAdmin, _serviceActivity,_serviceRole,_serviceStatus,_loginViewModel);
+            _roleViewModel = new RoleViewModel(_serviceRole,_loginViewModel); 
             _activityViewModel = new ActivityViewModel(_serviceActivity,_serviceSuperAdmin,_loginViewModel);
 
            

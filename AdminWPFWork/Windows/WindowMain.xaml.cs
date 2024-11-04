@@ -25,10 +25,11 @@ namespace AdminWPFWork.Windows
             IServiceSuperAdmin serviceSuperAdmin = new ServiceSuperAdmin(); 
             IServiceActivity serviceActivity = new ServiceActivity(); 
             IServiceRole serviceRole = new ServiceRole();
+            IServiceStatus serviceStatus = new ServiceStatus();
             _loginViewModel = loginViewModel; 
             
 
-            WindowMainViewModel viewModel = new WindowMainViewModel(serviceSuperAdmin, serviceActivity,serviceRole, _loginViewModel);
+            WindowMainViewModel viewModel = new WindowMainViewModel(serviceSuperAdmin, serviceActivity,serviceRole,serviceStatus, _loginViewModel);
             this.DataContext = viewModel; 
 
         }
