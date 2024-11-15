@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminWPFWork", "AdminWPFWork\AdminWPFWork.csproj", "{65F91D73-7E4E-4467-B4C4-0F3B1084C600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestAdminBLL", "UnitTestAdminBLL\UnitTestAdminBLL.csproj", "{D002B4A7-C65C-451A-BCBC-71BB4A19C5F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestAdminBLL", "UnitTestAdminBLL\UnitTestAdminBLL.csproj", "{D002B4A7-C65C-451A-BCBC-71BB4A19C5F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
