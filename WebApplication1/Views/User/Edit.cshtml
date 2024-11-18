@@ -1,0 +1,14 @@
+﻿@model WebApplication1.Models.UserDto
+
+<h2>Edit user</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="Id" value="@Model.Id" />
+
+    <div class="form-group">
+        <label for="FirstName">Ім'я</label>
+        <input type="text" name="FirstName" class="form-control" value="@Model.FirstName" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

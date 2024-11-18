@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestAdminBLL", "UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminWorkWeb", "AdminWorkWeb\AdminWorkWeb.csproj", "{7CEA901A-4776-41EC-B393-1604A0D69C5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{DEF9B066-1E85-4083-8020-B4FBBF5709E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestWeb", "UnitTestWeb\UnitTestWeb.csproj", "{0C94435A-8F37-4930-9DF1-259669B6ACF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{7CEA901A-4776-41EC-B393-1604A0D69C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CEA901A-4776-41EC-B393-1604A0D69C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CEA901A-4776-41EC-B393-1604A0D69C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEF9B066-1E85-4083-8020-B4FBBF5709E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF9B066-1E85-4083-8020-B4FBBF5709E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF9B066-1E85-4083-8020-B4FBBF5709E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF9B066-1E85-4083-8020-B4FBBF5709E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C94435A-8F37-4930-9DF1-259669B6ACF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C94435A-8F37-4930-9DF1-259669B6ACF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C94435A-8F37-4930-9DF1-259669B6ACF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C94435A-8F37-4930-9DF1-259669B6ACF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

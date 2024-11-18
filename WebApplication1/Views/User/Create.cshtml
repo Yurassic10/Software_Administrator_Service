@@ -1,0 +1,35 @@
+﻿@model WebApplication1.Models.UserDto
+
+<h2>Create User</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label asp-for="FirstName">First Name</label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="LastName">Last Name</label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Password">Password</label>
+        <input type="password" name="Password" id="Password" value="@Model.Password" required />
+    </div>
+    <div>
+        <label asp-for="RoleId">Role</label>
+        <select asp-for="RoleId" class="form-control">
+            <option value="1">SuperAdmin</option>
+            <option value="2">Admin</option>
+            <option value="3">Client</option>
+        </select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

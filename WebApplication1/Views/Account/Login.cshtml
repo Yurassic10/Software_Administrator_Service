@@ -1,0 +1,25 @@
+﻿@model UserDto
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post" action="/Account/Login">
+    <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Email" required />
+        @Html.ValidationMessageFor(m => m.Email, "", new { style = "color:red;" })
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password" required />
+        @Html.ValidationMessageFor(m => m.Password, "", new { style = "color:red;" })
+    </div>
+    <button type="submit">Login</button>
+
+    @if (ViewBag.Error != null)
+    {
+        <p style="color:red;">@ViewBag.Error</p>
+    }
+</form>
