@@ -19,6 +19,10 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "User");
+            }
             return View();
         }
         [HttpPost]
@@ -47,8 +51,8 @@ namespace WebApplication1.Controllers
         }
         public IActionResult Logout()
         {
-            HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login");
+            HttpContext.SignOutAsync("CookieAuth").GetAwaiter().GetResult();
+            return RedirectToAction("Login", "Account");
         }
 
 

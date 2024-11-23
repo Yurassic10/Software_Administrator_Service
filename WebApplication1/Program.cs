@@ -1,5 +1,6 @@
 using BLL.IServices;
 using BLL.Services;
+using Microsoft.Extensions.Options;
 using WebApplication1.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,7 @@ builder.Services.AddAuthentication("CookieAuth")
     .AddCookie("CookieAuth", config =>
     {
         config.LoginPath = "/Account/Login";
-        config.AccessDeniedPath = "/Account/AccessDenied";
+        config.LogoutPath = "/Account/Logout";
     });
 
 builder.Services.AddAuthorization();
